@@ -6,8 +6,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Page.DataContext>
+        <local:SearchViewModel/>
+    </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <SearchBox Grid.Row="0"
+                   SearchHistoryEnabled="False" 
+                   SuggestionsRequested="SearchBox_OnSuggestionsRequested" 
+                   ResultSuggestionChosen="SearchBox_OnResultSuggestionChosen"
+                   QuerySubmitted="SearchBox_OnQuerySubmitted"
+                   Height="30"
+                   FocusOnKeyboardInput="True"
+                   PlaceholderText="Search"
+                   QueryText="{Binding Query}"/>
+        <ListView Grid.Row="1" ItemsSource="{Binding SearchResult}" SelectionMode="Single" SelectionChanged="Selector_OnSelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Owner.AvatarUrl}" Height="30" Margin="0,0,10,0"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding FullName}"/>
+                            <TextBlock Text="{Binding Description}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
